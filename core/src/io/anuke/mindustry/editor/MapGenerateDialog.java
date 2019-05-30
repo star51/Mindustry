@@ -281,21 +281,8 @@ public class MapGenerateDialog extends FloatingDialog{
                     pixmapWriteIntoBuffer();
                 }
 
-                for(GenerateFilter filter : copy){
-                    input.setFilter(filter, pixmap.getWidth(), pixmap.getHeight(), scaling, (x, y) -> buffer1[x][y]);
-                    //read from buffer1 and write to buffer2
-                    readFromBuffer1(filter);
-                    writeToBuffer2();
-                }
-
-                for(int px = 0; px < pixmap.getWidth(); px++){
-                    for(int py = 0; py < pixmap.getHeight(); py++){
-                        int color;
-                        //get result from buffer1 if there's filters left, otherwise get from editor directly
-                        color = getColor(px, py);
-                        pixmap.drawPixel(px, pixmap.getHeight() - 1 - py, color);
-                    }
-                }
+                copyFilter(copy);
+                pixmapDraw();
 
                 Core.app.post(() -> {
                     if(pixmap == null || texture == null){
@@ -310,6 +297,26 @@ public class MapGenerateDialog extends FloatingDialog{
             }
             return null;
         });
+    }
+
+    private void copyFilter(Array<GenerateFilter> copy) {
+        for(GenerateFilter filter : copy){
+            input.setFilter(filter, pixmap.getWidth(), pixmap.getHeight(), scaling, (x, y) -> buffer1[x][y]);
+            //read from buffer1 and write to buffer2
+            readFromBuffer1(filter);
+            writeToBuffer2();
+        }
+    }
+
+    private void pixmapDraw() {
+        for(int px = 0; px < pixmap.getWidth(); px++){
+            for(int py = 0; py < pixmap.getHeight(); py++){
+                int color;
+                //get result from buffer1 if there's filters left, otherwise get from editor directly
+                color = getColor(px, py);
+                pixmap.drawPixel(px, pixmap.getHeight() - 1 - py, color);
+            }
+        }
     }
 
     private int getColor(int px, int py) {
