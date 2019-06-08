@@ -7,6 +7,7 @@ import io.anuke.arc.Events;
 import io.anuke.arc.collection.ObjectSet.ObjectSetIterator;
 import io.anuke.arc.util.Time;
 import io.anuke.mindustry.content.Fx;
+import io.anuke.mindustry.content.Items;
 import io.anuke.mindustry.core.GameState.State;
 import io.anuke.mindustry.entities.*;
 import io.anuke.mindustry.entities.type.Player;
@@ -59,6 +60,17 @@ public class Logic implements ApplicationListener{
         state.set(State.playing);
         state.wavetime = state.rules.waveSpacing * 2; //grace period of 2x wave time before game starts
         Events.fire(new PlayEvent());
+
+        //add starting items
+        if(!world.isZone()){
+            for(Team team : Team.all){
+                if(state.teams.isActive(team)){
+                    for(Tile core : state.teams.get(team).cores){
+                        core.entity.items.add(Items.copper, 200);
+                    }
+                }
+            }
+        }
     }
 
     public void reset(){

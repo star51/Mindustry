@@ -83,6 +83,8 @@ public class Control implements ApplicationListener{
         });
 
         Events.on(PlayEvent.class, event -> {
+            player.setTeam(defaultTeam);
+            player.setDead(true);
             player.add();
 
             state.set(State.playing);
@@ -135,7 +137,7 @@ public class Control implements ApplicationListener{
                     Net.host(port);
                     player.isAdmin = true;
                 }catch(IOException e){
-                    ui.showError(Core.bundle.format("server.error", Strings.parseException(e, false)));
+                    ui.showError(Core.bundle.format("server.error", Strings.parseException(e, true)));
                     Core.app.post(() -> state.set(State.menu));
                 }
             }

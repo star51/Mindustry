@@ -72,17 +72,19 @@ public class MechPad extends Block{
 
         if(entity.player == null) return;
         Mech mech = ((MechPad)tile.block()).mech;
+        boolean resetSpawner = !entity.sameMech && entity.player.mech == mech;
         entity.player.mech = !entity.sameMech && entity.player.mech == mech ? Mechs.starter : mech;
 
         entity.progress = 0;
         entity.player.onRespawn(tile);
+        if(resetSpawner) entity.player.lastSpawner = null;
         entity.player = null;
     }
 
     protected static boolean checkValidTap(Tile tile, Player player){
         MechFactoryEntity entity = tile.entity();
-        return Math.abs(player.x - tile.drawx()) <= tile.block().size * tilesize / 2f &&
-        Math.abs(player.y - tile.drawy()) <= tile.block().size * tilesize / 2f && entity.cons.valid() && entity.player == null;
+        return Math.abs(player.x - tile.drawx()) <= tile.block().size * tilesize &&
+        Math.abs(player.y - tile.drawy()) <= tile.block().size * tilesize && entity.cons.valid() && entity.player == null;
     }
 
     @Override

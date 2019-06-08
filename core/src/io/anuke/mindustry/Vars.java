@@ -39,9 +39,6 @@ public class Vars{
     public static final String discordURL = "https://discord.gg/mindustry";
     /** URL for Github API for releases */
     public static final String releasesURL = "https://api.github.com/repos/Anuken/Mindustry/releases";
-    /** URL for Github API for contributors */
-    //TODO remove and replace with a manually updated list
-    public static final String contributorsURL = "https://api.github.com/repos/Anuken/Mindustry/contributors";
     /** URL for sending crash reports to */
     public static final String crashReportURL = "http://mins.us.to/report";
     /** maximum distance between mine and core that supports automatic transferring */
@@ -105,6 +102,8 @@ public class Vars{
     public static FileHandle screenshotDirectory;
     /** data subdirectory used for custom mmaps */
     public static FileHandle customMapDirectory;
+    /** tmp subdirectory for map conversion */
+    public static FileHandle tmpDirectory;
     /** data subdirectory used for saves */
     public static FileHandle saveDirectory;
     /** old map file extension, for conversion */
@@ -206,5 +205,6 @@ public class Vars{
         screenshotDirectory = dataDirectory.child("screenshots/");
         customMapDirectory = dataDirectory.child("maps/");
         saveDirectory = dataDirectory.child("saves/");
+        tmpDirectory = dataDirectory.child("tmp/");
     }
 }
