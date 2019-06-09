@@ -209,16 +209,49 @@ public class MapGenerateDialog extends FloatingDialog{
         }
 
         //writeback buffer
+<<<<<<< HEAD
         DummyTile[][] writeTiles = getDummyTiles();
+=======
+
+        GenTile[][] writeTiles = new GenTile[editor.width()][editor.height()];
+
+        for(int x = 0; x < editor.width(); x++){
+            for(int y = 0; y < editor.height(); y++){
+                writeTiles[x][y] = new GenTile();
+            }
+        }
+>>>>>>> origin/JSH
 
         for(GenerateFilter filter : filters){
             input.setFilter(filter, editor.width(), editor.height(), 1, (x, y) -> dset(editor.tile(x, y)));
             //write to buffer
-            writeToBuffer(writeTiles, filter);
+            for(int x = 0; x < editor.width(); x++){
+                for(int y = 0; y < editor.height(); y++){
+                    Tile tile = editor.tile(x, y);
+                    input.begin(editor, x, y, tile.floor(), tile.block(), tile.overlay());
+                    filter.apply(input);
+                    writeTiles[x][y].set(input.floor, input.block, input.ore, tile.getTeam(), tile.rotation());
+                }
+            }
 
             editor.load(() -> {
                 //read from buffer back into tiles
+<<<<<<< HEAD
                 readFromBufferIntoTile(writeTiles);
+=======
+                for(int x = 0; x < editor.width(); x++){
+                    for(int y = 0; y < editor.height(); y++){
+                        Tile tile = editor.tile(x, y);
+                        GenTile write = writeTiles[x][y];
+
+                        tile.rotation(write.rotation);
+                        tile.setFloor((Floor)content.block(write.floor));
+                        tile.setBlock(content.block(write.block));
+                        tile.setTeam(Team.all[write.team]);
+                        tile.setOverlay(content.block(write.ore));
+                    }
+                }
+>>>>>>> origin/JSH
             });
         }
 
@@ -226,43 +259,6 @@ public class MapGenerateDialog extends FloatingDialog{
         editor.load(editor::checkLinkedTiles);
         editor.renderer().updateAll();
         editor.clearOp();
-    }
-
-    private void readFromBufferIntoTile(DummyTile[][] writeTiles) {
-        for(int x = 0; x < editor.width(); x++){
-            for(int y = 0; y < editor.height(); y++){
-                Tile tile = editor.tile(x, y);
-                DummyTile write = writeTiles[x][y];
-
-                tile.rotation(write.rotation);
-                tile.setFloor((Floor)content.block(write.floor));
-                tile.setBlock(content.block(write.block));
-                tile.setTeam(Team.all[write.team]);
-                tile.setOverlay(content.block(write.ore));
-            }
-        }
-    }
-
-    private void writeToBuffer(DummyTile[][] writeTiles, GenerateFilter filter) {
-        for(int x = 0; x < editor.width(); x++){
-            for(int y = 0; y < editor.height(); y++){
-                Tile tile = editor.tile(x, y);
-                input.begin(editor, x, y, tile.floor(), tile.block(), tile.overlay());
-                filter.apply(input);
-                writeTiles[x][y].set(input.floor, input.block, input.ore, tile.getTeam(), tile.rotation());
-            }
-        }
-    }
-
-    private DummyTile[][] getDummyTiles() {
-        DummyTile[][] writeTiles = new DummyTile[editor.width()][editor.height()];
-
-        for(int x = 0; x < editor.width(); x++){
-            for(int y = 0; y < editor.height(); y++){
-                writeTiles[x][y] = new DummyTile();
-            }
-        }
-        return writeTiles;
     }
 
     void update(){
@@ -279,21 +275,57 @@ public class MapGenerateDialog extends FloatingDialog{
 
                 if(!filters.isEmpty()){
                     //write to buffer1 for reading
-                    pixmapWriteIntoBuffer();
+                    for(int px = 0; px < pixmap.getWidth(); px++){
+                        for(int py = 0; py < pixmap.getHeight(); py++){
+                            buffer1[px][py].set(editor.tile(px * scaling, py * scaling));
+                        }
+                    }
                 }
 
                 for(GenerateFilter filter : copy){
                     input.setFilter(filter, pixmap.getWidth(), pixmap.getHeight(), scaling, (x, y) -> buffer1[x][y]);
                     //read from buffer1 and write to buffer2
+<<<<<<< HEAD
                     readFromBuffer1(filter);
                     writeToBuffer2();
+=======
+                    for(int px = 0; px < pixmap.getWidth(); px++){
+                        for(int py = 0; py < pixmap.getHeight(); py++){
+                            int x = px * scaling, y = py * scaling;
+                            GenTile tile = buffer1[px][py];
+                            input.begin(editor, x, y, content.block(tile.floor), content.block(tile.block), content.block(tile.ore));
+                            filter.apply(input);
+//                            buffer2[px][py].setFloor(input.floor.id)
+//                                            .setBlock(input.block.id)
+//                                            .setOre(input.ore.id)
+//                                            .setTeam((byte) Team.all[tile.team].ordinal())
+//                                            .setRotation(tile.rotation);
+                             buffer2[px][py].set(input.floor, input.block, input.ore, Team.all[tile.team], tile.rotation);
+                        }
+                    }
+                    for(int px = 0; px < pixmap.getWidth(); px++){
+                        for(int py = 0; py < pixmap.getHeight(); py++){
+                            buffer1[px][py].set(buffer2[px][py]);
+                        }
+                    }
+>>>>>>> origin/JSH
                 }
 
                 for(int px = 0; px < pixmap.getWidth(); px++){
                     for(int py = 0; py < pixmap.getHeight(); py++){
                         int color;
                         //get result from buffer1 if there's filters left, otherwise get from editor directly
+<<<<<<< HEAD
                         color = getColor(px, py);
+=======
+                        if(filters.isEmpty()){
+                            Tile tile = editor.tile(px * scaling, py * scaling);
+                            color = MapIO.colorFor(tile.floor(), tile.block(), tile.overlay(), Team.none);
+                        }else{
+                            GenTile tile = buffer1[px][py];
+                            color = MapIO.colorFor(content.block(tile.floor), content.block(tile.block), content.block(tile.ore), Team.none);
+                        }
+>>>>>>> origin/JSH
                         pixmap.drawPixel(px, pixmap.getHeight() - 1 - py, color);
                     }
                 }
@@ -313,6 +345,7 @@ public class MapGenerateDialog extends FloatingDialog{
         });
     }
 
+<<<<<<< HEAD
     private int getColor(int px, int py) {
         int color;
         if(filters.isEmpty()){
@@ -354,6 +387,9 @@ public class MapGenerateDialog extends FloatingDialog{
     }
 
     public static class DummyTile{
+=======
+    public static class GenTile{
+>>>>>>> origin/JSH
         public byte team, rotation;
         public short block, floor, ore;
 

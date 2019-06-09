@@ -6,6 +6,8 @@ import io.anuke.arc.util.Log;
 import io.anuke.arc.util.Time;
 import io.anuke.mindustry.Vars;
 import io.anuke.mindustry.content.*;
+import io.anuke.mindustry.content.Items.Items;
+import io.anuke.mindustry.content.UnitTypes;
 import io.anuke.mindustry.core.GameState.State;
 import io.anuke.mindustry.core.*;
 import io.anuke.mindustry.entities.traits.BuilderTrait.BuildRequest;
@@ -238,7 +240,7 @@ public class ApplicationTests{
     void buildingOverlap(){
         initBuilding();
 
-        Spirit d1 = (Spirit)UnitTypes.spirit.create(Team.blue);
+        Spirit d1 = (Spirit) UnitTypes.spirit.create(Team.blue);
         Spirit d2 = (Spirit)UnitTypes.spirit.create(Team.blue);
 
         d1.set(10f, 20f);

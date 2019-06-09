@@ -2,6 +2,8 @@ package io.anuke.mindustry.game;
 
 import io.anuke.arc.collection.Array;
 import io.anuke.mindustry.content.*;
+import io.anuke.mindustry.content.Items.Items;
+import io.anuke.mindustry.content.UnitTypes;
 import io.anuke.mindustry.type.ItemStack;
 
 public class DefaultWaves{

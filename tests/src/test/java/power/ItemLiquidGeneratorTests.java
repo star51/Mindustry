@@ -1,7 +1,7 @@
 package power;
 
 import io.anuke.arc.util.Time;
-import io.anuke.mindustry.content.Items;
+import io.anuke.mindustry.content.Items.Items;
 import io.anuke.mindustry.content.Liquids;
 import io.anuke.mindustry.type.Item;
 import io.anuke.mindustry.type.Liquid;

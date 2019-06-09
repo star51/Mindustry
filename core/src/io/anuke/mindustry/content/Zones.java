@@ -1,6 +1,7 @@
 package io.anuke.mindustry.content;
 
 import io.anuke.arc.collection.Array;
+import io.anuke.mindustry.content.Items.Items;
 import io.anuke.mindustry.game.*;
 import io.anuke.mindustry.maps.generators.MapGenerator;
 import io.anuke.mindustry.maps.generators.MapGenerator.Decoration;

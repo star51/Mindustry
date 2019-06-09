@@ -5,7 +5,7 @@ import io.anuke.arc.collection.ObjectSet;
 import io.anuke.arc.function.Supplier;
 import io.anuke.arc.graphics.g2d.TextureRegion;
 import io.anuke.arc.scene.ui.layout.Table;
-import io.anuke.mindustry.content.Items;
+import io.anuke.mindustry.content.Items.Items;
 import io.anuke.mindustry.entities.traits.TypeTrait;
 import io.anuke.mindustry.entities.type.BaseUnit;
 import io.anuke.mindustry.game.Team;

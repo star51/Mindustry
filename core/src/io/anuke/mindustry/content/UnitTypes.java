@@ -1,6 +1,7 @@
 package io.anuke.mindustry.content;
 
 import io.anuke.arc.collection.ObjectSet;
+import io.anuke.mindustry.content.Items.Items;
 import io.anuke.mindustry.entities.type.base.*;
 import io.anuke.mindustry.game.ContentList;
 import io.anuke.mindustry.type.UnitType;
