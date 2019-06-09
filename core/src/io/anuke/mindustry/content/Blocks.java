@@ -5,11 +5,8 @@ import io.anuke.arc.graphics.Color;
 import io.anuke.arc.graphics.g2d.*;
 import io.anuke.arc.math.Mathf;
 import io.anuke.mindustry.Vars;
-<<<<<<< HEAD
 import io.anuke.mindustry.entities.block.BlockFactory;
-=======
 import io.anuke.mindustry.content.Items.Items;
->>>>>>> origin/JSH
 import io.anuke.mindustry.game.ContentList;
 import io.anuke.mindustry.graphics.*;
 import io.anuke.mindustry.type.*;
