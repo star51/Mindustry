@@ -4,7 +4,7 @@ import io.anuke.arc.Core;
 import io.anuke.arc.Events;
 import io.anuke.arc.collection.*;
 import io.anuke.mindustry.Vars;
-import io.anuke.mindustry.content.Items;
+import io.anuke.mindustry.content.Items.Items;
 import io.anuke.mindustry.game.EventType.UnlockEvent;
 import io.anuke.mindustry.type.*;
 

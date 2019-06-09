@@ -1,6 +1,6 @@
 package power;
 
-import io.anuke.mindustry.content.Items;
+import io.anuke.mindustry.content.Items.Items;
 import io.anuke.mindustry.content.UnitTypes;
 import io.anuke.mindustry.type.ItemStack;
 import io.anuke.mindustry.world.Tile;
