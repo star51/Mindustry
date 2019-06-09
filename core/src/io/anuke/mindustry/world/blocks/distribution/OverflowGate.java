@@ -1,6 +1,7 @@
 package io.anuke.mindustry.world.blocks.distribution;
 
 import io.anuke.arc.math.Mathf;
+import io.anuke.arc.util.Time;
 import io.anuke.mindustry.entities.type.TileEntity;
 import io.anuke.mindustry.type.Item;
 import io.anuke.mindustry.world.*;
@@ -9,8 +10,7 @@ import io.anuke.mindustry.world.meta.BlockGroup;
 import java.io.*;
 
 public class OverflowGate extends Block{
-    protected int bufferCapacity = 10;
-    protected float speed = 45f;
+    protected float speed = 1f;
 
     public OverflowGate(String name){
         super(name);
@@ -21,17 +21,37 @@ public class OverflowGate extends Block{
     }
 
     @Override
+    public boolean outputsItems(){
+        return true;
+    }
+
+    @Override
+    public int removeStack(Tile tile, Item item, int amount){
+        OverflowGateEntity entity = tile.entity();
+        int result = super.removeStack(tile, item, amount);
+        if(result != 0 && item == entity.lastItem){
+            entity.lastItem = null;
+        }
+        return result;
+    }
+
+    @Override
     public void update(Tile tile){
         OverflowGateEntity entity = tile.entity();
 
-        for(int i = 0; i < 4; i++){
-            Item item = entity.buffer.poll(i);
-            if(item != null){
-                Tile other = getTileTarget(tile, item, tile.getNearby(i), true);
-                if(other != null && other.block().acceptItem(item, other, tile)){
-                    other.block().handleItem(item, other, tile);
-                    entity.buffer.remove(i);
-                }
+        if(entity.lastItem == null && entity.items.total() > 0){
+            entity.items.clear();
+        }
+
+        if(entity.lastItem != null){
+            entity.time += 1f / speed * Time.delta();
+            Tile target = getTileTarget(tile, entity.lastItem, entity.lastInput, false);
+
+            if(target != null && (entity.time >= 1f)){
+                getTileTarget(tile, entity.lastItem, entity.lastInput, true);
+                target.block().handleItem(entity.lastItem, target, Edges.getFacingEdge(tile, target));
+                entity.items.remove(entity.lastItem, 1);
+                entity.lastItem = null;
             }
         }
     }
@@ -39,16 +59,17 @@ public class OverflowGate extends Block{
     @Override
     public boolean acceptItem(Item item, Tile tile, Tile source){
         OverflowGateEntity entity = tile.entity();
-        return entity.buffer.accepts(tile.relativeTo(source.x, source.y));
+
+        return tile.getTeam() == source.getTeam() && entity.lastItem == null && entity.items.total() == 0;
     }
 
     @Override
     public void handleItem(Item item, Tile tile, Tile source){
         OverflowGateEntity entity = tile.entity();
-        int buffer = tile.relativeTo(source.x, source.y);
-        if(entity.buffer.accepts(buffer)){
-            entity.buffer.accept(buffer, item);
-        }
+        entity.items.add(item, 1);
+        entity.lastItem = item;
+        entity.time = 0f;
+        entity.lastInput = source;
     }
 
     Tile getTileTarget(Tile tile, Item item, Tile src, boolean flip){
@@ -75,10 +96,10 @@ public class OverflowGate extends Block{
             }else{
                 if(tile.rotation() == 0){
                     to = a;
-                    if(flip) tile.rotation((byte)1);
+                    if(flip) tile.rotation((byte) 1);
                 }else{
                     to = b;
-                    if(flip) tile.rotation((byte)0);
+                    if(flip) tile.rotation((byte) 0);
                 }
             }
         }
@@ -92,24 +113,25 @@ public class OverflowGate extends Block{
     }
 
     public class OverflowGateEntity extends TileEntity{
-        DirectionalItemBuffer buffer = new DirectionalItemBuffer(bufferCapacity, speed);
+        Item lastItem;
+        Tile lastInput;
+        float time;
 
         @Override
         public byte version(){
-            return 1;
+            return 2;
         }
 
         @Override
         public void write(DataOutput stream) throws IOException{
             super.write(stream);
-            buffer.write(stream);
         }
 
         @Override
         public void read(DataInput stream, byte revision) throws IOException{
             super.read(stream, revision);
             if(revision == 1){
-                buffer.read(stream);
+                new DirectionalItemBuffer(25, 50f).read(stream);
             }
         }
     }

@@ -7,11 +7,11 @@ import io.anuke.mindustry.game.Rules;
 import io.anuke.mindustry.game.SpawnGroup;
 import io.anuke.mindustry.type.*;
 
+@SuppressWarnings("unchecked")
 public class JsonIO{
     private static Json json = new Json(){{
         setIgnoreUnknownFields(true);
         setElementType(Rules.class, "spawns", SpawnGroup.class);
-        setElementType(Rules.class, "startingItems", ItemStack.class);
 
         setSerializer(Zone.class, new Serializer<Zone>(){
             @Override
@@ -40,6 +40,10 @@ public class JsonIO{
 
     public static String write(Object object){
         return json.toJson(object);
+    }
+
+    public static <T> T copy(T object){
+        return read((Class<T>)object.getClass(), write(object));
     }
 
     public static <T> T read(Class<T> type, String string){

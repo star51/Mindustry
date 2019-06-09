@@ -44,6 +44,7 @@ public class ServerControl implements ApplicationListener{
     private FileHandle currentLogFile;
     private boolean inExtraRound;
     private Task lastTask;
+    private Gamemode lastMode = Gamemode.survival;
 
     private Thread socketThread;
     private PrintWriter socketOutput;
@@ -157,7 +158,7 @@ public class ServerControl implements ApplicationListener{
                     ? "[YELLOW]The " + event.winner.name() + " team is victorious![]" : "[SCARLET]Game over![]")
                     + "\nNext selected map:[accent] " + map.name() + "[]"
                     + (map.tags.containsKey("author") && !map.tags.get("author").trim().isEmpty() ? " by[accent] " + map.author() + "[]" : "") + "." +
-                    "\nNew game begins in " + roundExtraTime + " seconds.");
+                    "\nNew game begins in " + roundExtraTime + "[] seconds.");
 
                     info("Selected next map to be {0}.", map.name());
 
@@ -235,9 +236,10 @@ public class ServerControl implements ApplicationListener{
             info("Loading map...");
 
             logic.reset();
-            state.rules = preset.apply(result.rules());
+            lastMode = preset;
             try{
                 world.loadMap(result);
+                state.rules = preset.apply(result.rules());
                 logic.play();
 
                 info("Map loaded.");
@@ -698,12 +700,13 @@ public class ServerControl implements ApplicationListener{
                 players.add(p);
                 p.setDead(true);
             }
-            Rules rules = state.rules;
+            
             logic.reset();
-            state.rules = rules;
+
             Call.onWorldDataBegin();
             run.run();
             logic.play();
+            state.rules = lastMode.apply(world.getMap().rules());
             for(Player p : players){
                 p.reset();
                 if(state.rules.pvp){

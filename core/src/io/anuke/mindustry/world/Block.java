@@ -103,6 +103,8 @@ public class Block extends BlockStorage{
     public float buildCost;
     /** Whether this block is visible and can currently be built. */
     public BooleanProvider buildVisibility = () -> false;
+    /** Whether this block has instant transfer.*/
+    public boolean instantTransfer = false;
     public boolean alwaysUnlocked = false;
 
     protected TextureRegion[] cacheRegions = {};
@@ -343,7 +345,7 @@ public class Block extends BlockStorage{
             cacheRegions[i] = Core.atlas.find(cacheRegionStrings.get(i));
         }
 
-        if(cracks == null){
+        if(cracks == null || cracks[0][0].getTexture().isDisposed()){
             cracks = new TextureRegion[maxCrackSize][crackRegions];
             for(int size = 1; size <= maxCrackSize; size++){
                 for(int i = 0; i < crackRegions; i++){
