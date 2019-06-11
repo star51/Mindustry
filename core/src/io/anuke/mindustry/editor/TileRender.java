@@ -9,30 +9,30 @@ import io.anuke.arc.math.geom.Point2;
 import io.anuke.mindustry.game.Team;
 import io.anuke.mindustry.graphics.IndexedRenderer;
 
-public class TileStrategy extends RenderStrategy{
-    private static TileStrategy tileStrategy;
+public class TileRender extends Render {
+    private static TileRender tileRender;
 
     private int indexWall;
     private int indexDecal;
 
-    private TileStrategy() {
+    private TileRender() {
         super();
         indexWall = 0;
         indexDecal = 0;
     }
 
-    public static TileStrategy getInstance(MapEditor editor, IndexedRenderer[][] chunks,
-                                                        int windowX, int windowY, int chunkSize){
-        if (tileStrategy == null) {
-            tileStrategy = new TileStrategy();
+    public static TileRender getInstance(MapEditor editor, IndexedRenderer[][] chunks,
+                                         int windowX, int windowY, int chunkSize){
+        if (tileRender == null) {
+            tileRender = new TileRender();
         }
-        preprocessing(tileStrategy, editor, chunks, windowX, windowY, chunkSize);
-        Point2 chunkStart = tileStrategy.getChunkStartPoint();
+        preprocessing(tileRender, editor, chunks, windowX, windowY, chunkSize);
+        Point2 chunkStart = tileRender.getChunkStartPoint();
         final int indexWall = chunkStart.x + chunkStart.y;
-        final int indexDecal = chunkStart.x + chunkStart.y + tileStrategy.getChunkArea();
-        tileStrategy.setIndexWall(indexWall);
-        tileStrategy.setIndexDecal(indexDecal);
-        return tileStrategy;
+        final int indexDecal = chunkStart.x + chunkStart.y + tileRender.getChunkArea();
+        tileRender.setIndexWall(indexWall);
+        tileRender.setIndexDecal(indexDecal);
+        return tileRender;
     }
 
     private TextureRegion getSyntheticTexture() {

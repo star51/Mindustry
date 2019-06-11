@@ -14,7 +14,7 @@ import io.anuke.mindustry.world.Tile;
 
 import static io.anuke.mindustry.Vars.tilesize;
 
-public abstract class RenderStrategy {
+public abstract class Render {
     protected Point2 windowPoint;
     protected Point2 gridPoint;
     protected Point2 chunkStartPoint;
@@ -34,7 +34,7 @@ public abstract class RenderStrategy {
     protected IndexedRenderer[][] chunks;
     protected Rectangle region;
 
-    protected RenderStrategy() {
+    protected Render() {
         windowPoint = new Point2();
         gridPoint = new Point2();
         chunkStartPoint = new Point2();
@@ -52,7 +52,7 @@ public abstract class RenderStrategy {
         chunks = null;
     }
 
-    protected static void preprocessing(RenderStrategy strategy, MapEditor editor,
+    protected static void preprocessing(Render strategy, MapEditor editor,
                                         IndexedRenderer[][] chunks,
                                         int windowX, int windowY, int chunkSize) {
         final int chunkStartX = (windowX % chunkSize);

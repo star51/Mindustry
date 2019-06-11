@@ -7,25 +7,25 @@ import io.anuke.arc.math.geom.Point2;
 import io.anuke.mindustry.graphics.IndexedRenderer;
 import io.anuke.mindustry.world.blocks.BlockPart;
 
-public class MeshStrategy extends RenderStrategy{
-    private static MeshStrategy meshStrategy;
+public class MeshRender extends Render {
+    private static MeshRender meshRender;
     private int indexWall;
 
-    private MeshStrategy() {
+    private MeshRender() {
         super();
         indexWall = 0;
     }
 
-    public static MeshStrategy getInstance(MapEditor editor, IndexedRenderer[][] chunks,
-                                                        int windowX, int windowY, int chunkSize){
-        if (meshStrategy == null) {
-            meshStrategy = new MeshStrategy();
+    public static MeshRender getInstance(MapEditor editor, IndexedRenderer[][] chunks,
+                                         int windowX, int windowY, int chunkSize){
+        if (meshRender == null) {
+            meshRender = new MeshRender();
         }
-        preprocessing(meshStrategy, editor, chunks, windowX, windowY, chunkSize);
-        Point2 chunkStart = meshStrategy.getChunkStartPoint();
+        preprocessing(meshRender, editor, chunks, windowX, windowY, chunkSize);
+        Point2 chunkStart = meshRender.getChunkStartPoint();
         final int indexWall = chunkStart.x + chunkStart.y;
-        meshStrategy.setIndexWall(indexWall);
-        return meshStrategy;
+        meshRender.setIndexWall(indexWall);
+        return meshRender;
     }
 
     @Override

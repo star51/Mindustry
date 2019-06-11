@@ -89,8 +89,8 @@ public class MapRenderer implements Disposable{
     }
 
     private void render(int wx, int wy){
-        RenderStrategy meshRendering = MeshStrategy.getInstance(editor, chunks, wx, wy, chunkSize);
-        RenderStrategy tileRendering = TileStrategy.getInstance(editor, chunks, wx, wy, chunkSize);
+        Render meshRendering = MeshRender.getInstance(editor, chunks, wx, wy, chunkSize);
+        Render tileRendering = TileRender.getInstance(editor, chunks, wx, wy, chunkSize);
         meshRendering.renderRegion();
         tileRendering.renderRegion();
     }
