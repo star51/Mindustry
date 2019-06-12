@@ -209,7 +209,7 @@ public class MapGenerateDialog extends FloatingDialog{
         }
 
         //writeback buffer
-        DummyTile[][] writeTiles = getDummyTiles();
+        GenTile[][] writeTiles = getDummyTiles();
 
         for(GenerateFilter filter : filters){
             input.setFilter(filter, editor.width(), editor.height(), 1, (x, y) -> dset(editor.tile(x, y)));
@@ -228,11 +228,11 @@ public class MapGenerateDialog extends FloatingDialog{
         editor.clearOp();
     }
 
-    private void readFromBufferIntoTile(DummyTile[][] writeTiles) {
+    private void readFromBufferIntoTile(GenTile[][] writeTiles) {
         for(int x = 0; x < editor.width(); x++){
             for(int y = 0; y < editor.height(); y++){
                 Tile tile = editor.tile(x, y);
-                DummyTile write = writeTiles[x][y];
+                GenTile write = writeTiles[x][y];
 
                 tile.rotation(write.rotation);
                 tile.setFloor((Floor)content.block(write.floor));
@@ -243,7 +243,7 @@ public class MapGenerateDialog extends FloatingDialog{
         }
     }
 
-    private void writeToBuffer(DummyTile[][] writeTiles, GenerateFilter filter) {
+    private void writeToBuffer(GenTile[][] writeTiles, GenerateFilter filter) {
         for(int x = 0; x < editor.width(); x++){
             for(int y = 0; y < editor.height(); y++){
                 Tile tile = editor.tile(x, y);
@@ -254,12 +254,12 @@ public class MapGenerateDialog extends FloatingDialog{
         }
     }
 
-    private DummyTile[][] getDummyTiles() {
-        DummyTile[][] writeTiles = new DummyTile[editor.width()][editor.height()];
+    private GenTile[][] getDummyTiles() {
+        GenTile[][] writeTiles = new GenTile[editor.width()][editor.height()];
 
         for(int x = 0; x < editor.width(); x++){
             for(int y = 0; y < editor.height(); y++){
-                writeTiles[x][y] = new DummyTile();
+                writeTiles[x][y] = new GenTile();
             }
         }
         return writeTiles;
@@ -319,7 +319,7 @@ public class MapGenerateDialog extends FloatingDialog{
             Tile tile = editor.tile(px * scaling, py * scaling);
             color = MapIO.colorFor(tile.floor(), tile.block(), tile.overlay(), Team.none);
         }else{
-            DummyTile tile = buffer1[px][py];
+            GenTile tile = buffer1[px][py];
             color = MapIO.colorFor(content.block(tile.floor), content.block(tile.block), content.block(tile.ore), Team.none);
         }
         return color;
@@ -337,7 +337,7 @@ public class MapGenerateDialog extends FloatingDialog{
         for(int px = 0; px < pixmap.getWidth(); px++){
             for(int py = 0; py < pixmap.getHeight(); py++){
                 int x = px * scaling, y = py * scaling;
-                DummyTile tile = buffer1[px][py];
+                GenTile tile = buffer1[px][py];
                 input.begin(editor, x, y, content.block(tile.floor), content.block(tile.block), content.block(tile.ore));
                 filter.apply(input);
                 buffer2[px][py].set(input.floor, input.block, input.ore, Team.all[tile.team], tile.rotation);
@@ -353,7 +353,7 @@ public class MapGenerateDialog extends FloatingDialog{
         }
     }
 
-    public static class DummyTile{
+    public static class GenTile {
         public byte team, rotation;
         public short block, floor, ore;
 
