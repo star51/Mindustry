@@ -4,7 +4,7 @@ import io.anuke.arc.collection.Array;
 
 public class OperationStack{
     private final static int maxSize = 10;
-    private Array<DrawOperation> stack = new Array<>();
+    private Array<Rollbackable> stack = new Array<>();
     private int index = 0;
 
     public OperationStack(){
@@ -16,7 +16,7 @@ public class OperationStack{
         index = 0;
     }
 
-    public void add(DrawOperation action){
+    public void add(Rollbackable action){
         stack.truncate(stack.size + index);
         index = 0;
         stack.add(action);
@@ -34,18 +34,17 @@ public class OperationStack{
         return !(index > -1 || stack.size + index < 0);
     }
 
-    public void undo(){
-        if(!canUndo()) return;
+    public Rollbackable undo(){
+        if(!canUndo()) return null;
 
-        stack.get(stack.size - 1 + index).undo();
         index--;
+        return stack.get(stack.size + index);//.undo();
     }
 
-    public void redo(){
-        if(!canRedo()) return;
+    public Rollbackable redo(){
+        if(!canRedo()) return null;
 
         index++;
-        stack.get(stack.size - 1 + index).redo();
-
+        return stack.get(stack.size + index);//.redo();
     }
 }

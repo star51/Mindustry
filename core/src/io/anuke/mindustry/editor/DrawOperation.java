@@ -11,7 +11,7 @@ import io.anuke.mindustry.world.blocks.Floor;
 import static io.anuke.mindustry.Vars.content;
 import static io.anuke.mindustry.Vars.world;
 
-public class DrawOperation{
+public class DrawOperation implements Rollbackable{
     private MapEditor editor;
     private LongArray array = new LongArray();
 
@@ -41,7 +41,8 @@ public class DrawOperation{
 
     private void updateTile(int i) {
         long l = array.get(i);
-        array.set(i, TileOp.get(TileOp.x(l), TileOp.y(l), TileOp.type(l), getTile(editor.tile(TileOp.x(l), TileOp.y(l)), TileOp.type(l))));
+        short tile = getTile(editor.tile(TileOp.x(l), TileOp.y(l)), TileOp.type(l));
+        array.set(i, TileOp.get(TileOp.x(l), TileOp.y(l), TileOp.type(l), tile));
         setTile(editor.tile(TileOp.x(l), TileOp.y(l)), TileOp.type(l), TileOp.value(l));
     }
 

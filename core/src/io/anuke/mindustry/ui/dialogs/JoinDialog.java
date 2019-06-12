@@ -171,7 +171,7 @@ public class JoinDialog extends FloatingDialog{
                 t.add("[lightgray]" + (host.players != 1 ? Core.bundle.format("players", host.players) :
                 Core.bundle.format("players.single", host.players))).left();
                 t.row();
-                t.add("[lightgray]" + Core.bundle.format("save.map", host.mapname) + " / " + Core.bundle.format("save.wave", host.wave)).width(targetWidth() - 10f).left().get().setEllipsis(true);
+                t.add("[lightgray]" + Core.bundle.format("save.map", host.mapname) + "[] / " + Core.bundle.format("save.wave", host.wave)).width(targetWidth() - 10f).left().get().setEllipsis(true);
             }).expand().left().bottom().padLeft(12f).padBottom(8);
 
         }, e -> {
@@ -230,7 +230,7 @@ public class JoinDialog extends FloatingDialog{
 
             Cell cell = ((Table)pane.getParent()).getCell(button);
 
-            if(!Mathf.isEqual(cell.getMinWidth(), pw)){
+            if(!Mathf.isEqual(cell.minWidth(), pw)){
                 cell.width(pw);
                 cell.padLeft(pad);
                 pane.getParent().invalidateHierarchy();
