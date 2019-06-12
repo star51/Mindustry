@@ -40,7 +40,7 @@ public class Bullets implements ContentList{
     waterShot, cryoShot, slagShot, oilShot,
 
     //environment, misc.
-    fireball, basicFlame, pyraFlame, driverBolt, healBullet, frag, eruptorShot,
+    fireball, basicFlame, pyraFlame, fuseShot, driverBolt, healBullet, frag, eruptorShot,
 
     //bombs
     bombExplosive, bombIncendiary, bombOil, explode;
