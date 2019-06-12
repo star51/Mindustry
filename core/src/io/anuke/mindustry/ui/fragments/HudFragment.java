@@ -111,6 +111,7 @@ public class HudFragment extends Fragment{
                     float size = Unit.dp.scl(dsize);
                     Array<Element> children = new Array<>(select.getChildren());
 
+                    //now, you may be wondering, why is this necessary? the answer is, I don't know, but it fixes layout issues somehow
                     int index = 0;
                     for(Element elem : children){
                         int fi = index++;
@@ -119,7 +120,7 @@ public class HudFragment extends Fragment{
                             if(fi < 4){
                                 elem.setSize(size);
                             }else{
-                                elem.setSize(3f, size);
+                                elem.setSize(Unit.dp.scl(3f), size);
                             }
                             elem.setPosition(fi * size, Core.graphics.getHeight(), Align.topLeft);
                             return !state.is(State.menu);
@@ -135,14 +136,16 @@ public class HudFragment extends Fragment{
             }
 
             cont.update(() -> {
-                if(!Core.input.keyDown(Binding.gridMode) && Core.input.keyTap(Binding.toggle_menus) && !ui.chatfrag.chatOpen()){
+                if(!Core.input.keyDown(Binding.gridMode) && Core.input.keyTap(Binding.toggle_menus) && !ui.chatfrag.chatOpen() && !Core.scene.hasDialog() && !(Core.scene.getKeyboardFocus() instanceof TextField)){
                     toggleMenus();
                 }
             });
 
             Table wavesMain, editorMain;
 
-            cont.stack(wavesMain = new Table(), editorMain = new Table()).height(e -> wavesMain.isVisible() ? wavesMain.getPrefHeight() : editorMain.getPrefHeight());
+            cont.stack(wavesMain = new Table(), editorMain = new Table()).height(wavesMain.getPrefHeight()).update(s -> {
+                ((Table)s.getParent()).getCell(s).height(wavesMain.isVisible() ? wavesMain.getPrefHeight() : editorMain.getPrefHeight());
+            });
 
             {
                 wavesMain.visible(() -> shown && !state.isEditor());
@@ -533,11 +536,27 @@ public class HudFragment extends Fragment{
     }
 
     private void addWaveTable(TextButton table){
+        StringBuilder ibuild = new StringBuilder();
 
         IntFormat wavef = new IntFormat("wave");
         IntFormat enemyf = new IntFormat("wave.enemy");
         IntFormat enemiesf = new IntFormat("wave.enemies");
-        IntFormat waitingf = new IntFormat("wave.waiting");
+        IntFormat waitingf = new IntFormat("wave.waiting", i -> {
+            ibuild.setLength(0);
+            int m = i/60;
+            int s = i % 60;
+            if(m <= 0){
+                ibuild.append(s);
+            }else{
+                ibuild.append(m);
+                ibuild.append(":");
+                if(s < 10){
+                    ibuild.append("0");
+                }
+                ibuild.append(s);
+            }
+            return ibuild.toString();
+        });
 
         table.clearChildren();
         table.touchable(Touchable.enabled);
