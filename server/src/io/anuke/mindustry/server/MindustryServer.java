@@ -25,7 +25,7 @@ public class MindustryServer implements ApplicationListener{
         headless = true;
 
         BundleLoader.load();
-        content.verbose(false);
+        content.chageVerbose(false);
         content.load();
 
         Core.app.addListener(logic = new Logic());
