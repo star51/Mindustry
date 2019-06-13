@@ -1,10 +1,11 @@
 package io.anuke.mindustry.content.Items.ItemList;
 
 import io.anuke.arc.graphics.Color;
+import io.anuke.mindustry.content.Items.CreateItemFactory;
 import io.anuke.mindustry.type.Item;
 import io.anuke.mindustry.type.ItemType;
 
-public class Phasefabric {
+public class Phasefabric extends CreateItemFactory {
     public static Item phasefabric;
 
     public static Item createPhasefabric() {

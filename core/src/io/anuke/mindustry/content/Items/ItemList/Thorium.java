@@ -1,10 +1,11 @@
 package io.anuke.mindustry.content.Items.ItemList;
 
 import io.anuke.arc.graphics.Color;
+import io.anuke.mindustry.content.Items.CreateItemFactory;
 import io.anuke.mindustry.type.Item;
 import io.anuke.mindustry.type.ItemType;
 
-public class Thorium {
+public class Thorium extends CreateItemFactory {
     public static Item thorium;
 
     public static Item createThorium() {

@@ -1,10 +1,11 @@
 package io.anuke.mindustry.content.Items.ItemList;
 
 import io.anuke.arc.graphics.Color;
+import io.anuke.mindustry.content.Items.CreateItemFactory;
 import io.anuke.mindustry.type.Item;
 import io.anuke.mindustry.type.ItemType;
 
-public class Surgealloy {
+public class Surgealloy extends CreateItemFactory {
     public static Item surgealloy;
 
     public static Item createSurgealloy() {

@@ -1,6 +1,6 @@
 package io.anuke.mindustry.entities.block.storage;
 
-import io.anuke.mindustry.content.*;
+import io.anuke.mindustry.content.Items.Items;
 import io.anuke.mindustry.type.*;
 import static io.anuke.mindustry.Vars.world;
 import io.anuke.mindustry.world.blocks.storage.*;

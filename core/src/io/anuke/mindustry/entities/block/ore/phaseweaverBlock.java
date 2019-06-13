@@ -2,10 +2,10 @@ package io.anuke.mindustry.entities.block.ore;
 
 import io.anuke.mindustry.Vars;
 import io.anuke.mindustry.content.*;
+import io.anuke.mindustry.content.Items.Items;
 import io.anuke.mindustry.graphics.Pal;
 import io.anuke.mindustry.type.*;
 import io.anuke.arc.graphics.g2d.*;
-import io.anuke.arc.graphics.*;
 import io.anuke.arc.Core;
 import io.anuke.arc.math.*;
 import io.anuke.mindustry.world.blocks.production.*;

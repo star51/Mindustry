@@ -1,9 +1,10 @@
 package io.anuke.mindustry.content.Items.ItemList;
 
 import io.anuke.arc.graphics.Color;
+import io.anuke.mindustry.content.Items.CreateItemFactory;
 import io.anuke.mindustry.type.Item;
 
-public class SporePod {
+public class SporePod extends CreateItemFactory {
     public static Item sporePod;
 
     public static Item createSporePod() {
