@@ -7,7 +7,7 @@ import io.anuke.arc.Events;
 import io.anuke.arc.collection.ObjectSet.ObjectSetIterator;
 import io.anuke.arc.util.Time;
 import io.anuke.mindustry.content.Fx;
-import io.anuke.mindustry.content.Items;
+import io.anuke.mindustry.content.Items.Items;
 import io.anuke.mindustry.core.GameState.State;
 import io.anuke.mindustry.entities.*;
 import io.anuke.mindustry.entities.type.Player;

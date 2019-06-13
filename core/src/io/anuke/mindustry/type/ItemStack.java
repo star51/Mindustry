@@ -1,7 +1,7 @@
 package io.anuke.mindustry.type;
 
 import io.anuke.arc.collection.Array;
-import io.anuke.mindustry.content.Items;
+import io.anuke.mindustry.content.Items.Items;
 
 public class ItemStack implements Comparable<ItemStack>{
     public Item item;

@@ -2,7 +2,7 @@ package io.anuke.mindustry.entities.units;
 
 import io.anuke.arc.math.Mathf;
 import io.anuke.mindustry.Vars;
-import io.anuke.mindustry.content.Items;
+import io.anuke.mindustry.content.Items.Items;
 import io.anuke.mindustry.entities.type.BaseUnit;
 import io.anuke.mindustry.entities.type.TileEntity;
 import io.anuke.mindustry.gen.Call;

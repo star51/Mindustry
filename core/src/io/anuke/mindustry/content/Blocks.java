@@ -1,32 +1,10 @@
 package io.anuke.mindustry.content;
 
-import io.anuke.arc.Core;
-import io.anuke.arc.function.BooleanProvider;
-import io.anuke.arc.graphics.Color;
-import io.anuke.arc.graphics.g2d.*;
-import io.anuke.arc.math.Mathf;
-import io.anuke.mindustry.Vars;
+import io.anuke.mindustry.content.Items.Items;
 import io.anuke.mindustry.entities.block.BlockFactory;
 import io.anuke.mindustry.game.ContentList;
-import io.anuke.mindustry.graphics.*;
-import io.anuke.mindustry.type.*;
 import io.anuke.mindustry.world.Block;
-import io.anuke.mindustry.world.Tile;
 import io.anuke.mindustry.world.blocks.*;
-import io.anuke.mindustry.world.blocks.defense.*;
-import io.anuke.mindustry.world.blocks.defense.turrets.*;
-import io.anuke.mindustry.world.blocks.distribution.*;
-import io.anuke.mindustry.world.blocks.power.*;
-import io.anuke.mindustry.world.blocks.production.*;
-import io.anuke.mindustry.world.blocks.sandbox.*;
-import io.anuke.mindustry.world.blocks.storage.*;
-import io.anuke.mindustry.world.blocks.units.*;
-import io.anuke.mindustry.world.consumers.ConsumeLiquidFilter;
-import io.anuke.mindustry.world.meta.Attribute;
-import io.anuke.mindustry.world.modules.LiquidModule;
-
-import static io.anuke.mindustry.Vars.state;
-import static io.anuke.mindustry.Vars.world;
 
 public class Blocks implements ContentList{
     public static Block

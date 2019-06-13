@@ -9,6 +9,7 @@ import io.anuke.arc.scene.event.InputListener;
 import io.anuke.arc.scene.ui.layout.Unit;
 
 import static io.anuke.mindustry.Vars.*;
+import static io.anuke.mindustry.Vars.world;
 
 public class MinimapDialog extends FloatingDialog{
 
