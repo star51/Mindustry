@@ -73,14 +73,11 @@ public class ContentLoader{
         int total = 0;
 
         for(ContentType type : ContentType.values()){
-
-            for(Content c : contentMap[type.ordinal()]){
-                if(c instanceof MappableContent){
-                    String name = ((MappableContent)c).name;
-                    if(contentNameMap[type.ordinal()].containsKey(name)){
-                        throw new IllegalArgumentException("Two content objects cannot have the same name! (issue: '" + name + "')");
-                    }
-                    contentNameMap[type.ordinal()].put(name, (MappableContent)c);
+            for(Content content : contentMap[type.ordinal()]){
+                if(content instanceof MappableContent){
+                    String name = ((MappableContent)content).name;
+                    throwIllegalName(contentNameMap[type.ordinal()], name);
+                    contentNameMap[type.ordinal()].put(name, (MappableContent)content);
                 }
                 total++;
             }
@@ -90,9 +87,7 @@ public class ContentLoader{
         for(Array<Content> arr : contentMap){
             for(int i = 0; i < arr.size; i++){
                 int id = arr.get(i).id;
-                if(id != i){
-                    throw new IllegalArgumentException("Out-of-order IDs for content '" + arr.get(i) + "' (expected " + i + " but got " + id + ")");
-                }
+                throwIllegalID(arr, i, id);
             }
         }
 
@@ -106,6 +101,18 @@ public class ContentLoader{
         }
 
         loaded = true;
+    }
+
+    private void throwIllegalID(Array<Content> arr, int i, int id) {
+        if(id != i){
+            throw new IllegalArgumentException("Out-of-order IDs for content '" + arr.get(i) + "' (expected " + i + " but got " + id + ")");
+        }
+    }
+
+    private void throwIllegalName(ObjectMap<String, MappableContent> entries, String name) {
+        if(entries.containsKey(name)){
+            throw new IllegalArgumentException("Two content objects cannot have the same name! (issue: '" + name + "')");
+        }
     }
 
     public void initialize(Consumer<Content> callable){
@@ -141,7 +148,15 @@ public class ContentLoader{
         pixmap.dispose();
     }
 
-    public void verbose(boolean verbose){
+    public boolean getLoaded() {
+        return loaded;
+    }
+
+    public boolean getVerbose() {
+        return verbose;
+    }
+
+    public void chageVerbose(boolean verbose){
         this.verbose = verbose;
     }
 
